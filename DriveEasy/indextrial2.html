@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrivEasy - Premium Car Rentals</title>
+    <style>
+        :root {
+            --primary: #007bff;
+            --primary-dark: #0056b3;
+            --secondary: #6c757d;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --white: #ffffff;
+            --border-radius: 4px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--white);
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--dark);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        
+        /* Enhanced sign-in button */
+        .btn-sign-in {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+            transition: var(--transition);
+        }
+        
+        .btn-sign-in:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.4);
+        }
+        
+        .btn-sign-in:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+        }
+        
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/400');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            color: var(--white);
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .search-bar {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-top: -50px;
+            position: relative;
+        }
+        
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+        
+        .search-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            align-self: flex-end;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 32px;
+            color: var(--dark);
+        }
+        
+        .section-title p {
+            color: var(--secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .car-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .car-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .car-details {
+            padding: 20px;
+        }
+        
+        .car-title {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .car-subtitle {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .car-features {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .car-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .car-price span {
+            font-size: 14px;
+            color: var(--secondary);
+            font-weight: normal;
+        }
+        
+        .why-us {
+            background-color: var(--light);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .testimonials {
+            background-color: var(--white);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .author-details h4 {
+            margin-bottom: 5px;
+        }
+        
+        .author-details p {
+            color: var(--secondary);
+            font-size: 14px;
+        }
+        
+        .how-it-works {
+            background-color: var(--light);
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+        
+        .step-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: -30px;
+            width: 60px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            font-size: 14px;
+            color: #bbb;
+        }
+        
+        /* Sign In Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+        
+        .close-btn:hover {
+            color: var(--dark);
+        }
+        
+        .sign-in-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .sign-in-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .sign-in-form .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .sign-in-form .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+        
+        .sign-in-form .btn-primary {
+            width: 100%;
+            padding: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .sign-in-form .forgot-password {
+            text-align: center;
+            display: block;
+            margin-top: 15px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .sign-in-form .separator {
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .sign-in-form .separator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #ddd;
+            z-index: 1;
+        }
+        
+        .sign-in-form .separator span {
+            background-color: var(--white);
+            padding: 0 10px;
+            position: relative;
+            z-index: 2;
+            color: var(--secondary);
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .social-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin: 0 5px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--white);
+            transition: var(--transition);
+        }
+        
+        .facebook {
+            background-color: #3b5998;
+        }
+        
+        .google {
+            background-color: #dd4b39;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .register-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .step:not(:last-child)::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">Drive<span>Easy</span></a>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <!-- Updated Cars link to redirect to cars.html -->
+                    <li><a href="cars.html">Cars</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#why-us">Why Us</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#" class="btn btn-sign-in" id="sign-in-btn">Sign In</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Rent Your Dream Car Today</h1>
+                <p>Choose from our wide range of premium vehicles and enjoy the ride at affordable prices.</p>
+                <a href="cars.html" class="btn btn-primary">Explore Cars</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="search-bar">
+            <form class="search-form">
+                <div class="form-group">
+                    <label for="pickup-location">Pickup Location</label>
+                    <input type="text" id="pickup-location" placeholder="Enter city or airport">
+                </div>
+                <div class="form-group">
+                    <label for="pickup-date">Pickup Date</label>
+                    <input type="date" id="pickup-date">
+                </div>
+                <div class="form-group">
+                    <label for="return-date">Return Date</label>
+                    <input type="date" id="return-date">
+                </div>
+                <div class="form-group">
+                    <label for="car-type">Car Type</label>
+                    <select id="car-type">
+                        <option value="">All Types</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="suv">SUV</option>
+                        <option value="luxury">Luxury</option>
+                        <option value="convertible">Convertible</option>
+                    </select>
+                </div>
+                <button type="submit" class="search-btn">Search Cars</button>
+            </form>
+        </div>
+    </div>
+
+    <section id="cars" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Featured Cars</h2>
+                <p>Choose from our top-rated vehicles for your next adventure</p>
+            </div>
+            
+            <div class="cars-grid">
+                <!-- Car Card 1 -->
+                <div class="car-card" onclick="redirectToDetails('Honda City', 45, 'Compact Sedan', 4, 2, 'Auto', '/api/placeholder/400/200')">
+                    <div class="car-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">Honda City</h3>
+                        <p class="car-subtitle">Compact Sedan</p>
+                        <div class="car-features">
+                            <span class="feature">4 Seats</span>
+                            <span class="feature">2 Bags</span>
+                            <span class="feature">Auto</span>
+                        </div>
+                        <div class="car-price">$45 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car Card 2 -->
+                <div class="car-card" onclick="redirectToDetails('Toyota RAV4', 65, 'Compact SUV', 5, 3, 'Auto', '/api/placeholder/400/200')">
+                    <div class="car-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">Toyota RAV4</h3>
+                        <p class="car-subtitle">Compact SUV</p>
+                        <div class="car-features">
+                            <span class="feature">5 Seats</span>
+                            <span class="feature">3 Bags</span>
+                            <span class="feature">Auto</span>
+                        </div>
+                        <div class="car-price">$65 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car Card 3 -->
+                <div class="car-card" onclick="redirectToDetails('BMW 3 Series', 95, 'Luxury Sedan', 5, 2, 'Auto', '/api/placeholder/400/200')">
+                    <div class="car-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">BMW 3 Series</h3>
+                        <p class="car-subtitle">Luxury Sedan</p>
+                        <div class="car-features">
+                            <span class="feature">5 Seats</span>
+                            <span class="feature">2 Bags</span>
+                            <span class="feature">Auto</span>
+                        </div>
+                        <div class="car-price">$95 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car Card 4 -->
+                <div class="car-card" onclick="redirectToDetails('Mercedes-Benz E-Class', 120, 'Executive Sedan', 5, 3, 'Auto', '/api/placeholder/400/200')">
+                    <div class="car-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">Mercedes-Benz E-Class</h3>
+                        <p class="car-subtitle">Executive Sedan</p>
+                        <div class="car-features">
+                            <span class="feature">5 Seats</span>
+                            <span class="feature">3 Bags</span>
+                            <span class="feature">Auto</span>
+                        </div>
+                        <div class="car-price">$120 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car Card 5 -->
+                <div class="car-card" onclick="redirectToDetails('Ford Mustang', 110, 'Sports Car', 4, 2, 'Auto', '/api/placeholder/400/200')">
+                    <div class="car-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">Ford Mustang</h3>
+                        <p class="car-subtitle">Sports Car</p>
+                        <div class="car-features">
+                            <span class="feature">4 Seats</span>
+                            <span class="feature">2 Bags</span>
+                            <span class="feature">Auto</span>
+                        </div>
+                        <div class="car-price">$110 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car Card 6 -->
+                <div class="car-card" onclick="redirectToDetails('Jeep Wrangler', 85, 'Off-Road SUV', 5, 3, 'Manual', '/api/placeholder/400/200')">
+                    <div class="car-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">Jeep Wrangler</h3>
+                        <p class="car-subtitle">Off-Road SUV</p>
+                        <div class="car-features">
+                            <span class="feature">5 Seats</span>
+                            <span class="feature">3 Bags</span>
+                            <span class="feature">Manual</span>
+                        </div>
+                        <div class="car-price">$85 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sign In Modal -->
+    <div id="sign-in-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form class="sign-in-form">
+                <h2>Sign In to DrivEasy</h2>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign In</button>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+                
+                <div class="separator">
+                    <span>Or Sign In With</span>
+                </div>
+                
+                <div class="social-login">
+                    <div class="social-btn facebook">Facebook</div>
+                    <div class="social-btn google">Google</div>
+                </div>
+                
+                <div class="register-link">
+                    Don't have an account? <a href="#">Register Now</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Redirect to car details page with query parameters
+        function redirectToDetails(carName, carPrice, carSubtitle, seats, bags, transmission, image) {
+            // Create query parameters string
+            const params = new URLSearchParams({
+                carName: carName,
+                carPrice: carPrice,
+                carSubtitle: carSubtitle,
+                seats: seats,
+                bags: bags,
+                transmission: transmission,
+                image: image
+            });
+            // Redirect to car-details.html with query parameters
+            window.location.href = 'car-details.html?' + params.toString();
+        }
+
+        // Get the modal
+        const modal = document.getElementById("sign-in-modal");
+        
+        // Get the button that opens the modal
+        const btn = document.getElementById("sign-in-btn");
+        
+        // Get the <span> element that closes the modal
+        const span = document.getElementsByClassName("close-btn")[0];
+        
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+            return false; // Prevent default anchor behavior
+        }
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+        // Handle form submission
+        document.querySelector('.sign-in-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically handle authentication
+            alert('Login functionality would be implemented here');
+            modal.style.display = "none";
+        });
+    </script>
+</body>
+</html>

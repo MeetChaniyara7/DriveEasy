@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Car Details - DrivEasy</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .car-feature {
+      @apply flex items-center space-x-2 text-gray-600;
+    }
+    .feature-icon {
+      @apply text-blue-500 text-xl;
+    }
+    .rating-star {
+      @apply text-yellow-400;
+    }
+    .spec-card {
+      @apply bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="#" class="text-2xl font-bold text-blue-600 flex items-center">
+        <i class="fas fa-car-side mr-2"></i>
+        DrivEasy
+      </a>
+      <ul class="flex space-x-6">
+        <li><a href="index.html" class="hover:text-blue-600 transition-colors duration-300"><i class="fas fa-home mr-1"></i> Home</a></li>
+        <li><a href="cars.html" class="hover:text-blue-600 transition-colors duration-300"><i class="fas fa-car mr-1"></i> Cars</a></li>
+        <li><a href="how-it-works.html" class="hover:text-blue-600 transition-colors duration-300"><i class="fas fa-info-circle mr-1"></i> How It Works</a></li>
+        <li><a href="testimonials.html" class="hover:text-blue-600 transition-colors duration-300"><i class="fas fa-comments mr-1"></i> Testimonials</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mx-auto px-4 py-8">
+    <!-- Car Title & Price -->
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
+      <div>
+        <h1 id="carName" class="text-4xl font-bold text-gray-800 mb-2">
+          <!-- Populated by JavaScript -->
+          Toyota Camry
+        </h1>
+        <div class="flex items-center space-x-2 text-gray-600">
+          <span class="car-feature">
+            <i class="fas fa-star rating-star"></i>
+            <span>4.8</span>
+          </span>
+          <span>•</span>
+          <span class="car-feature">
+            <i class="fas fa-car feature-icon"></i>
+            <span id="carCategory">Premium Sedan</span>
+          </span>
+        </div>
+      </div>
+      <div class="mt-4 md:mt-0">
+        <p id="carPrice" class="text-3xl text-blue-600 font-bold">
+          <!-- Populated by JavaScript -->
+          $45 / day
+        </p>
+        <p class="text-gray-500 text-sm">+ taxes and fees</p>
+      </div>
+    </div>
+
+    <!-- Main Content: Car Images & Specs -->
+    <div class="md:flex md:space-x-8">
+      <!-- Car Image Gallery -->
+      <div class="md:w-1/2 mb-8 md:mb-0">
+        <div class="relative">
+          <img
+            id="carMainImage"
+            src="https://via.placeholder.com/800x450"
+            alt="Car Image"
+            class="w-full h-auto rounded-lg shadow-lg mb-4"
+          />
+          <div class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md">
+            <i class="fas fa-heart text-red-500 text-xl cursor-pointer hover:text-red-600"></i>
+          </div>
+        </div>
+        <div class="grid grid-cols-4 gap-4">
+          <!-- Thumbnail images will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Car Details & Specs -->
+      <div class="md:w-1/2">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6">Car Specifications</h2>
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="spec-card">
+              <i class="fas fa-users feature-icon mb-2"></i>
+              <h3 class="font-semibold text-gray-700">Seats</h3>
+              <p id="carSeats" class="text-gray-600">5</p>
+            </div>
+            <div class="spec-card">
+              <i class="fas fa-cogs feature-icon mb-2"></i>
+              <h3 class="font-semibold text-gray-700">Transmission</h3>
+              <p id="carTransmission" class="text-gray-600">Automatic</p>
+            </div>
+            <div class="spec-card">
+              <i class="fas fa-gas-pump feature-icon mb-2"></i>
+              <h3 class="font-semibold text-gray-700">Fuel Type</h3>
+              <p id="carFuel" class="text-gray-600">Petrol</p>
+            </div>
+            <div class="spec-card">
+              <i class="fas fa-tachometer-alt feature-icon mb-2"></i>
+              <h3 class="font-semibold text-gray-700">Mileage</h3>
+              <p id="carMileage" class="text-gray-600">15 km/l</p>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <h3 class="font-semibold text-gray-700 mb-2">Key Features</h3>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="car-feature">
+                <i class="fas fa-snowflake feature-icon"></i>
+                <span>Air Conditioning</span>
+              </div>
+              <div class="car-feature">
+                <i class="fas fa-music feature-icon"></i>
+                <span>Premium Sound System</span>
+              </div>
+              <div class="car-feature">
+                <i class="fas fa-shield-alt feature-icon"></i>
+                <span>Airbags</span>
+              </div>
+              <div class="car-feature">
+                <i class="fas fa-camera feature-icon"></i>
+                <span>Rear Camera</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            id="bookNowBtn"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-2"
+          >
+            <i class="fas fa-calendar-check"></i>
+            <span>Book Now</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="mt-12 grid md:grid-cols-2 gap-8">
+      <!-- Reviews Section -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Customer Reviews</h2>
+        <div class="space-y-4">
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="flex items-center mb-2">
+              <div class="flex">
+                <i class="fas fa-star rating-star"></i>
+                <i class="fas fa-star rating-star"></i>
+                <i class="fas fa-star rating-star"></i>
+                <i class="fas fa-star rating-star"></i>
+                <i class="fas fa-star rating-star"></i>
+              </div>
+              <span class="ml-2 text-sm text-gray-500">2 days ago</span>
+            </div>
+            <p class="text-gray-700">
+              "The car was in excellent condition and the pickup process was smooth. Highly recommended!"
+            </p>
+            <div class="flex items-center mt-2">
+              <span class="text-sm font-semibold text-blue-600">— Alex Brown</span>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="flex items-center mb-2">
+              <div class="flex">
+                <i class="fas fa-star rating-star"></i>
+                <i class="fas fa-star rating-star"></i>
+                <i class="fas fa-star rating-star"></i>
+                <i class="fas fa-star rating-star"></i>
+                <i class="fas fa-star-half-alt rating-star"></i>
+              </div>
+              <span class="ml-2 text-sm text-gray-500">1 week ago</span>
+            </div>
+            <p class="text-gray-700">
+              "Loved the smooth ride and excellent mileage. The car was clean and well-maintained."
+            </p>
+            <div class="flex items-center mt-2">
+              <span class="text-sm font-semibold text-blue-600">— Sarah Johnson</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rental Policies -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Rental Policies</h2>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-3">
+            <i class="fas fa-clock feature-icon mt-1"></i>
+            <div>
+              <h3 class="font-semibold text-gray-700">Minimum Rental Period</h3>
+              <p class="text-gray-600">24 hours</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <i class="fas fa-id-card feature-icon mt-1"></i>
+            <div>
+              <h3 class="font-semibold text-gray-700">Required Documents</h3>
+              <p class="text-gray-600">Valid Driver's License, ID Proof, and Credit Card</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <i class="fas fa-gas-pump feature-icon mt-1"></i>
+            <div>
+              <h3 class="font-semibold text-gray-700">Fuel Policy</h3>
+              <p class="text-gray-600">Return with same amount of fuel as received</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <i class="fas fa-shield-alt feature-icon mt-1"></i>
+            <div>
+              <h3 class="font-semibold text-gray-700">Insurance</h3>
+              <p class="text-gray-600">Comprehensive insurance included</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white mt-12">
+    <div class="container mx-auto px-4 py-8">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">DrivEasy</h3>
+          <p class="text-gray-400">Your trusted partner for premium car rentals. Experience comfort and luxury on every journey.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Home</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Cars</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">How It Works</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-phone"></i>
+              <span class="text-gray-400">+91 98765 43210</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-envelope"></i>
+              <span class="text-gray-400">info@driveasy.in</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-map-marker-alt"></i>
+              <span class="text-gray-400">123 MG Road, Bangalore</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+        <p>&copy; 2024 DrivEasy. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script to handle dynamic data & Book Now redirect -->
+  <script>
+    // On page load, parse URL params to set car details
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+
+      const carName = params.get('carName') || 'Toyota Camry';
+      const price = params.get('carPrice') || '45';
+      const seats = params.get('seats') || '5';
+      const transmission = params.get('transmission') || 'Automatic';
+      const fuel = params.get('fuel') || 'Petrol';
+      const mileage = params.get('mileage') || '15 km/l';
+      const mainImage = params.get('image') || 'https://via.placeholder.com/800x450';
+      
+      // Get additional images if they exist
+      let additionalImages = [];
+      if (carName === 'Toyota Camry') {
+        additionalImages = [
+          'carss/camry/Screenshot 2025-04-07 002655.png',
+          'carss/camry/Screenshot 2025-04-07 002717.png'
+        ];
+      } else if (carName === 'Honda Civic') {
+        additionalImages = [
+          'carss/civic/Screenshot 2025-04-07 002804.png',
+          'carss/civic/Screenshot 2025-04-07 002833.png',
+          'carss/civic/Screenshot 2025-04-07 002655.png',
+          'carss/civic/Screenshot 2025-04-07 002717.png'
+        ];
+      } else if (carName === 'Tata Nexon') {
+        additionalImages = [
+          'carss/nexon/Screenshot 2025-04-07 003300.png',
+          'carss/nexon/Screenshot 2025-04-07 003314.png',
+          'carss/nexon/Screenshot 2025-04-07 003229.png',
+          'carss/nexon/Screenshot 2025-04-07 003246.png'
+        ];
+      } else if (carName === 'Mahindra Thar') {
+        additionalImages = [
+          'carss/thar/Screenshot 2025-04-07 003410.png',
+          'carss/thar/Screenshot 2025-04-07 003431.png',
+          'carss/thar/Screenshot 2025-04-07 003447.png',
+          'carss/thar/Screenshot 2025-04-07 003502.png'
+        ];
+      } else if (carName === 'Kia Seltos') {
+        additionalImages = [
+          'carss/kia/Screenshot 2025-04-08 234913.png',
+          'carss/kia/Screenshot 2025-04-08 234932.png',
+          'carss/kia/Screenshot 2025-04-08 234955.png',
+          'carss/kia/Screenshot 2025-04-08 235031.png'
+        ];
+      } else if (carName === 'Maruti Suzuki Baleno') {
+        additionalImages = [
+          'carss/baleno/Screenshot 2025-04-07 003705.png',
+          'carss/baleno/Screenshot 2025-04-07 003720.png',
+          'carss/baleno/Screenshot 2025-04-07 003738.png',
+          'carss/baleno/Screenshot 2025-04-07 003753.png'
+        ];
+      } else if (carName === 'Toyota Innova Crysta') {
+        additionalImages = [
+          'carss/crysta/Screenshot 2025-04-07 004049.png',
+          'carss/crysta/Screenshot 2025-04-07 004107.png',
+          'carss/crysta/Screenshot 2025-04-07 004008.png',
+          'carss/crysta/Screenshot 2025-04-07 004034.png'
+        ];
+      } else if (carName === 'Skoda Kushaq') {
+        additionalImages = [
+          'carss/kushaq/Screenshot 2025-04-07 004222.png',
+          'carss/kushaq/Screenshot 2025-04-07 004237.png',
+          'carss/kushaq/Screenshot 2025-04-07 004144.png',
+          'carss/kushaq/Screenshot 2025-04-07 004205.png'
+        ];
+      } else if (carName === 'Renault Kiger') {
+        additionalImages = [
+          'carss/kiger/Screenshot 2025-04-07 004313.png',
+          'carss/kiger/Screenshot 2025-04-07 004325.png',
+          'carss/kiger/Screenshot 2025-04-07 004340.png',
+          'carss/kiger/Screenshot 2025-04-07 004449.png'
+        ];
+      } else if (carName === 'Nissan Magnite') {
+        additionalImages = [
+          'carss/magnite/Screenshot 2025-04-07 004805.png',
+          'carss/magnite/Screenshot 2025-04-07 004819.png',
+          'carss/magnite/Screenshot 2025-04-07 004736.png',
+          'carss/magnite/Screenshot 2025-04-07 004752.png'
+        ];
+      } else if (carName === 'Tata Harrier') {
+        additionalImages = [
+          'carss/harrier/Screenshot 2025-04-07 004916.png',
+          'carss/harrier/Screenshot 2025-04-07 004929.png',
+          'carss/harrier/Screenshot 2025-04-07 004956.png',
+          'carss/harrier/Screenshot 2025-04-07 005012.png'
+        ];
+      } else if (carName === 'Mahindra XUV700') {
+        additionalImages = [
+          'carss/xuv700/Screenshot 2025-04-07 005354.png',
+          'carss/xuv700/Screenshot 2025-04-07 005426.png',
+          'carss/xuv700/Screenshot 2025-04-07 005319.png',
+          'carss/xuv700/Screenshot 2025-04-07 005341.png'
+        ];
+      }
+
+      // Populate the page
+      document.getElementById('carName').textContent = carName;
+      document.getElementById('carPrice').textContent = `₹${price} / day`;
+      document.getElementById('carSeats').textContent = seats;
+      document.getElementById('carTransmission').textContent = transmission;
+      document.getElementById('carFuel').textContent = fuel;
+      document.getElementById('carMileage').textContent = mileage;
+      
+      // Set the first image as the main image
+      if (additionalImages.length > 0) {
+        document.getElementById('carMainImage').src = additionalImages[0];
+      } else {
+        document.getElementById('carMainImage').src = mainImage;
+      }
+
+      // Update thumbnail images
+      const thumbnailContainer = document.querySelector('.grid-cols-4');
+      thumbnailContainer.innerHTML = additionalImages.map(img => `
+        <img
+          src="${img}"
+          alt="${carName} View"
+          class="w-full h-auto rounded-lg cursor-pointer hover:opacity-75 transition-opacity duration-300"
+          onclick="changeImage(this.src)"
+        />
+      `).join('');
+    });
+
+    // Function to switch the main image when thumbnails are clicked
+    function changeImage(src) {
+      document.getElementById('carMainImage').src = src;
+    }
+
+    // On Book Now, redirect to the booking page with car details
+    document.getElementById('bookNowBtn').addEventListener('click', () => {
+      const carName = document.getElementById('carName').textContent;
+      const priceText = document.getElementById('carPrice').textContent;
+      // Extract just the numeric part from price (e.g. '₹45 / day' -> '45')
+      const price = priceText.match(/[0-9]+/g) ? priceText.match(/[0-9]+/g)[0] : '45';
+
+      // Example: redirect to 'book-now.html'
+      // Pass carName and carPrice as query params
+      window.location.href = `booknow.html?carName=${encodeURIComponent(carName)}&carPrice=${encodeURIComponent(price)}`;
+    });
+  </script>
+</body>
+</html>

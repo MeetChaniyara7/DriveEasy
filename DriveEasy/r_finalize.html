@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - DrivEasy</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Helvetica', Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .invoice-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            height: 70px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .invoice-title {
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .invoice-body {
+            padding: 30px;
+        }
+        .invoice-number {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        .info-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .info-section:last-child {
+            border-bottom: none;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #1e3c72;
+            display: inline-block;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .flex-item {
+            flex: 1;
+            min-width: 200px;
+            margin-right: 20px;
+        }
+        .flex-item:last-child {
+            margin-right: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .total-row {
+            font-weight: 700;
+            border-top: 2px solid #1e3c72;
+            background-color: #f8f9fa;
+        }
+        #qrcode {
+            margin: 10px auto;
+            display: block;
+            text-align: center;
+        }
+        .payment-note {
+            background-color: #fff8f8;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            font-weight: 600;
+            color: #dc3545;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 15px 30px;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        .btn {
+            background-color: #1e3c72;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 20px auto;
+            display: block;
+        }
+        .btn:hover {
+            background-color: #2a5298;
+        }
+        @media print {
+            .btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="invoice">
+        <div class="invoice-header">
+            <img src="/api/placeholder/180/70" alt="DrivEasy Logo" class="logo">
+            <div class="invoice-title">Rental Invoice</div>
+        </div>
+        
+        <div class="invoice-body">
+            <div class="invoice-number">
+                Invoice #: DE-2025-3821<br>
+                Date: March 18, 2025
+            </div>
+            
+            <div class="flex-container info-section">
+                <div class="flex-item">
+                    <div class="section-title">From</div>
+                    <p>
+                        <strong>DrivEasy Inc.</strong><br>
+                        123 Drive Lane<br>
+                        Auto City, CA 90210<br>
+                        contact@driveasy.com<br>
+                        (555) 123-4567
+                    </p>
+                </div>
+                <div class="flex-item">
+                    <div class="section-title">To</div>
+                    <p>
+                        <strong>John Doe</strong><br>
+                        john.doe@example.com<br>
+                        +1 234 567 890<br>
+                        Customer ID: DE-CUS-2025102
+                    </p>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <div class="section-title">Vehicle Details</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>VIN</th>
+                            <th>License Plate</th>
+                            <th>Color</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BMW 3 Series</td>
+                            <td>WBA8E3C50GK123456</td>
+                            <td>XYZ-987</td>
+                            <td>Mineral Grey</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="info-section">
+                <div class="section-title">Rental Details</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Period</th>
+                            <th>Rate</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Vehicle Rental</td>
+                            <td>March 18 - April 17, 2025</td>
+                            <td>$700.00</td>
+                            <td>$700.00</td>
+                        </tr>
+                        <tr>
+                            <td>Insurance</td>
+                            <td>1 Month</td>
+                            <td>$89.00</td>
+                            <td>$89.00</td>
+                        </tr>
+                        <tr>
+                            <td>Roadside Assistance</td>
+                            <td>1 Month</td>
+                            <td>$45.00</td>
+                            <td>$45.00</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="3">Total</td>
+                            <td>$834.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="info-section">
+                <div class="section-title">Verification & Confirmation</div>
+                <div class="flex-container">
+                    <div class="flex-item">
+                        <p>Scan the QR code to verify this invoice's authenticity and access your rental details through our mobile app.</p>
+                        <p>Rental ID: <strong>DE-RNT-25318</strong></p>
+                    </div>
+                    <div class="flex-item" style="text-align: center;">
+                        <div id="qrcode"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="payment-note">
+                Payment will be transferred to your account within 2-3 working days after the rental period is over.
+            </div>
+        </div>
+        
+        <div class="footer">
+            Thank you for choosing DrivEasy. For any questions, please contact our customer support at support@driveasy.com.
+        </div>
+    </div>
+    
+    <button class="btn" onclick="downloadInvoice()">Download Invoice (PDF)</button>
+    
+    <script>
+        // Generate QR code for the web view
+        window.onload = function() {
+            new QRCode(document.getElementById("qrcode"), {
+                text: "https://driveasy.com/verify/DE-RNT-25318",
+                width: 120,
+                height: 120,
+                colorDark: "#1e3c72",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        };
+        
+        function downloadInvoice() {
+            const { jsPDF } = window.jspdf;
+            
+            // Create a new PDF document
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const pageWidth = doc.internal.pageSize.getWidth();
+            
+            // Set up the document
+            doc.setFont("helvetica");
+            
+            // Header
+            doc.setFillColor(30, 60, 114);
+            doc.rect(0, 0, pageWidth, 30, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(20);
+            doc.text("RENTAL INVOICE", pageWidth - 15, 20, { align: 'right' });
+            
+            // Reset text color
+            doc.setTextColor(0, 0, 0);
+            
+            // Invoice number and date
+            doc.setFontSize(10);
+            doc.text("Invoice #: DE-2025-3821", pageWidth - 15, 40, { align: 'right' });
+            doc.text("Date: March 18, 2025", pageWidth - 15, 45, { align: 'right' });
+            
+            // Company details
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text("DrivEasy Inc.", 15, 40);
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            doc.text("123 Drive Lane", 15, 45);
+            doc.text("Auto City, CA 90210", 15, 50);
+            doc.text("contact@driveasy.com", 15, 55);
+            doc.text("(555) 123-4567", 15, 60);
+            
+            // Customer details
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text("Customer:", 15, 75);
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            doc.text("John Doe", 15, 80);
+            doc.text("john.doe@example.com", 15, 85);
+            doc.text("+1 234 567 890", 15, 90);
+            doc.text("Customer ID: DE-CUS-2025102", 15, 95);
+            
+            // Vehicle details
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text("Vehicle Details:", 15, 110);
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            doc.text("Model: BMW 3 Series", 15, 115);
+            doc.text("VIN: WBA8E3C50GK123456", 15, 120);
+            doc.text("License Plate: XYZ-987", 15, 125);
+            doc.text("Color: Mineral Grey", 15, 130);
+            
+            // Rental details
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text("Rental Details:", 15, 145);
+            doc.setFontSize(10);
+            
+            // Table headers
+            doc.setFillColor(240, 240, 240);
+            doc.rect(15, 150, pageWidth - 30, 7, 'F');
+            doc.text("Service", 17, 155);
+            doc.text("Period", 67, 155);
+            doc.text("Rate", 117, 155);
+            doc.text("Amount", pageWidth - 17, 155, { align: 'right' });
+            
+            // Table content
+            doc.setFont("helvetica", "normal");
+            doc.text("Vehicle Rental", 17, 165);
+            doc.text("March 18 - April 17, 2025", 67, 165);
+            doc.text("$700.00", 117, 165);
+            doc.text("$700.00", pageWidth - 17, 165, { align: 'right' });
+            
+            doc.text("Insurance", 17, 175);
+            doc.text("1 Month", 67, 175);
+            doc.text("$89.00", 117, 175);
+            doc.text("$89.00", pageWidth - 17, 175, { align: 'right' });
+            
+            doc.text("Roadside Assistance", 17, 185);
+            doc.text("1 Month", 67, 185);
+            doc.text("$45.00", 117, 185);
+            doc.text("$45.00", pageWidth - 17, 185, { align: 'right' });
+            
+            // Total
+            doc.setFillColor(240, 240, 240);
+            doc.rect(15, 190, pageWidth - 30, 7, 'F');
+            doc.setFont("helvetica", "bold");
+            doc.text("Total", 17, 195);
+            doc.text("$834.00", pageWidth - 17, 195, { align: 'right' });
+            
+            // Verification section
+            doc.setFontSize(12);
+            doc.text("Verification & Confirmation:", 15, 210);
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            doc.text("Rental ID: DE-RNT-25318", 15, 215);
+            doc.text("Scan the QR code to verify this invoice's authenticity", 15, 220);
+            doc.text("and access your rental details through our mobile app.", 15, 225);
+            
+            // Draw QR code in PDF
+            // Create a simple QR code pattern (not a real QR code but looks like one)
+            function drawQRCode(x, y, size) {
+                const cellSize = size / 25;
+                
+                // Draw background
+                doc.setFillColor(255, 255, 255);
+                doc.rect(x, y, size, size, 'F');
+                
+                // QR code pattern (simplified)
+                doc.setFillColor(30, 60, 114);
+                
+                // Position detection patterns (corners)
+                // Top-left
+                doc.rect(x, y, 7 * cellSize, 7 * cellSize, 'F');
+                doc.setFillColor(255, 255, 255);
+                doc.rect(x + cellSize, y + cellSize, 5 * cellSize, 5 * cellSize, 'F');
+                doc.setFillColor(30, 60, 114);
+                doc.rect(x + 2 * cellSize, y + 2 * cellSize, 3 * cellSize, 3 * cellSize, 'F');
+                
+                // Top-right
+                doc.setFillColor(30, 60, 114);
+                doc.rect(x + size - 7 * cellSize, y, 7 * cellSize, 7 * cellSize, 'F');
+                doc.setFillColor(255, 255, 255);
+                doc.rect(x + size - 6 * cellSize, y + cellSize, 5 * cellSize, 5 * cellSize, 'F');
+                doc.setFillColor(30, 60, 114);
+                doc.rect(x + size - 5 * cellSize, y + 2 * cellSize, 3 * cellSize, 3 * cellSize, 'F');
+                
+                // Bottom-left
+                doc.setFillColor(30, 60, 114);
+                doc.rect(x, y + size - 7 * cellSize, 7 * cellSize, 7 * cellSize, 'F');
+                doc.setFillColor(255, 255, 255);
+                doc.rect(x + cellSize, y + size - 6 * cellSize, 5 * cellSize, 5 * cellSize, 'F');
+                doc.setFillColor(30, 60, 114);
+                doc.rect(x + 2 * cellSize, y + size - 5 * cellSize, 3 * cellSize, 3 * cellSize, 'F');
+                
+                // Add some random "data" dots to make it look like a QR code
+                const qrData = [
+                    [0,0,0,0,1,0,1,1,0,1,0,1,1,0,1,0,0,0,0],
+                    [0,1,1,1,0,0,0,1,0,1,0,0,0,1,1,1,0],
+                    [0,1,0,0,1,1,1,0,0,0,1,1,1,0,0,1,0],
+                    [0,1,0,0,1,0,0,1,1,1,0,0,1,0,0,1,0],
+                    [0,1,0,0,1,1,0,0,0,0,1,1,1,0,0,1,0],
+                    [0,1,1,1,0,0,1,1,1,1,0,0,0,1,1,1,0],
+                    [0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0],
+                    [0,1,1,1,1,0,1,0,1,0,1,0,1,1,1,1,0],
+                    [1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1],
+                    [0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,1,0],
+                    [1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1],
+                    [0,1,1,1,0,0,1,0,1,0,1,0,0,1,1,1,0],
+                    [0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0]
+                ];
+                
+                const offsetX = x + 4 * cellSize;
+                const offsetY = y + 8 * cellSize;
+                
+                for (let i = 0; i < qrData.length; i++) {
+                    for (let j = 0; j < qrData[i].length; j++) {
+                        if (qrData[i][j] === 1) {
+                            doc.setFillColor(30, 60, 114);
+                            doc.rect(offsetX + j * cellSize, offsetY + i * cellSize, cellSize, cellSize, 'F');
+                        }
+                    }
+                }
+            }
+            
+            // Draw QR code in the PDF
+            drawQRCode(pageWidth - 40, 210, 25);
+            
+            // Payment note
+            doc.setFillColor(255, 248, 248);
+            doc.rect(15, 235, pageWidth - 30, 10, 'F');
+            doc.setTextColor(220, 53, 69);
+            doc.setFont("helvetica", "bold");
+            doc.text("Payment will be transferred to your account within 2-3 working days after the rental period is over.", pageWidth/2, 241, { align: 'center', maxWidth: pageWidth - 40 });
+            
+            // Footer
+            doc.setTextColor(100, 100, 100);
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(8);
+            doc.text("Thank you for choosing DrivEasy. For any questions, please contact our customer support at support@driveasy.com.", pageWidth/2, 280, { align: 'center' });
+            
+            // Save the PDF
+            doc.save("DrivEasy_Invoice_DE-2025-3821.pdf");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Featured Cars - DrivEasy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #007bff;
+      --primary-dark: #0056b3;
+      --secondary: #6c757d;
+      --light: #f8f9fa;
+      --dark: #343a40;
+      --white: #ffffff;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background-color: var(--white);
+      box-shadow: var(--box-shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    nav a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    .page-header {
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .page-title {
+      font-size: 36px;
+      color: var(--dark);
+      margin-bottom: 15px;
+    }
+
+    .page-subtitle {
+      color: var(--secondary);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .car-card {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+
+    .car-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .car-image {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .car-slideshow {
+      position: relative;
+      height: 100%;
+    }
+
+    .car-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .car-slide.active {
+      opacity: 1;
+    }
+
+    .car-slideshow-nav {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      z-index: 2;
+    }
+
+    .car-slideshow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .car-slideshow-dot.active {
+      background: var(--white);
+      transform: scale(1.2);
+    }
+
+    .car-details {
+      padding: 20px;
+    }
+
+    .car-name {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 5px;
+    }
+
+    .car-category {
+      color: var(--secondary);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .car-price {
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    .view-details-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: var(--white);
+      text-align: center;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+
+    .view-details-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Footer Styles */
+    footer {
+      background-color: var(--dark);
+      color: var(--white);
+      padding: 50px 0 20px;
+      margin-top: 50px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .footer-column h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background-color: var(--primary);
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #bbb;
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-links a i {
+      margin-right: 8px;
+      font-size: 14px;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+      padding-left: 5px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-link {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--white);
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      background-color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #555;
+      font-size: 14px;
+      color: #bbb;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .page-subtitle {
+        font-size: 16px;
+      }
+
+      .cars-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="#" class="logo">DrivEasy</a>
+      <nav>
+        <ul>
+          <li><a href="vercelhomepage.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="cars.html"><i class="fas fa-car"></i> Cars</a></li>
+          <li><a href="vercelhomepage.html#how-it-works"><i class="fas fa-info-circle"></i> How It Works</a></li>
+          <li><a href="vercelhomepage.html#testimonials"><i class="fas fa-comments"></i> Testimonials</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1 class="page-title">Our Featured Cars</h1>
+      <p class="page-subtitle">Choose from our wide selection of premium vehicles for your next journey</p>
+    </div>
+
+    <div class="cars-grid">
+      <!-- Toyota Camry -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/camry/Screenshot 2025-04-07 002655.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/camry/Screenshot 2025-04-07 002717.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Toyota Camry</h3>
+          <p class="car-category">Premium Sedan</p>
+          <p class="car-price">₹3,500 / day</p>
+          <a href="car-details.html?carName=Toyota%20Camry&carPrice=3500&seats=5&transmission=Automatic&fuel=Petrol&mileage=14%20km/l&images=carss/camry/Screenshot%202025-04-07%20002655.png,carss/camry/Screenshot%202025-04-07%20002717.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Honda Civic -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/civic/Screenshot 2025-04-07 002804.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/civic/Screenshot 2025-04-07 002833.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/civic/Screenshot 2025-04-07 002655.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/civic/Screenshot 2025-04-07 002717.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Honda Civic</h3>
+          <p class="car-category">Premium Sedan</p>
+          <p class="car-price">₹3,200 / day</p>
+          <a href="car-details.html?carName=Honda%20Civic&carPrice=3200&seats=5&transmission=Manual&fuel=Petrol&mileage=16%20km/l&images=carss/civic/Screenshot%202025-04-07%20002804.png,carss/civic/Screenshot%202025-04-07%20002833.png,carss/civic/Screenshot%202025-04-07%20002655.png,carss/civic/Screenshot%202025-04-07%20002717.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Tata Nexon -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/nexon/Screenshot 2025-04-07 003300.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/nexon/Screenshot 2025-04-07 003314.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/nexon/Screenshot 2025-04-07 003229.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/nexon/Screenshot 2025-04-07 003246.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Tata Nexon</h3>
+          <p class="car-category">Compact SUV</p>
+          <p class="car-price">₹3,800 / day</p>
+          <a href="car-details.html?carName=Tata%20Nexon&carPrice=3800&seats=5&transmission=Automatic&fuel=Petrol&mileage=17%20km/l&images=carss/nexon/Screenshot%202025-04-07%20003300.png,carss/nexon/Screenshot%202025-04-07%20003314.png,carss/nexon/Screenshot%202025-04-07%20003229.png,carss/nexon/Screenshot%202025-04-07%20003246.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Mahindra Thar -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/thar/Screenshot 2025-04-07 003410.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/thar/Screenshot 2025-04-07 003431.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/thar/Screenshot 2025-04-07 003447.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/thar/Screenshot 2025-04-07 003502.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Mahindra Thar</h3>
+          <p class="car-category">Off-Road SUV</p>
+          <p class="car-price">₹4,500 / day</p>
+          <a href="car-details.html?carName=Mahindra%20Thar&carPrice=4500&seats=4&transmission=Manual&fuel=Diesel&mileage=15%20km/l&images=carss/thar/Screenshot%202025-04-07%20003410.png,carss/thar/Screenshot%202025-04-07%20003431.png,carss/thar/Screenshot%202025-04-07%20003447.png,carss/thar/Screenshot%202025-04-07%20003502.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Kia Seltos -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/kia/Screenshot 2025-04-08 234913.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/kia/Screenshot 2025-04-08 234932.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/kia/Screenshot 2025-04-08 234955.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/kia/Screenshot 2025-04-08 235031.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Kia Seltos</h3>
+          <p class="car-category">Premium SUV</p>
+          <p class="car-price">₹4,200 / day</p>
+          <a href="car-details.html?carName=Kia%20Seltos&carPrice=4200&seats=5&transmission=Automatic&fuel=Petrol&mileage=16%20km/l&images=carss/kia/Screenshot%202025-04-08%20234913.png,carss/kia/Screenshot%202025-04-08%20234932.png,carss/kia/Screenshot%202025-04-08%20234955.png,carss/kia/Screenshot%202025-04-08%20235031.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Maruti Suzuki Baleno -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/baleno/Screenshot 2025-04-07 003705.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/baleno/Screenshot 2025-04-07 003720.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/baleno/Screenshot 2025-04-07 003738.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/baleno/Screenshot 2025-04-07 003753.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Maruti Suzuki Baleno</h3>
+          <p class="car-category">Premium Hatchback</p>
+          <p class="car-price">₹3,000 / day</p>
+          <a href="car-details.html?carName=Maruti%20Suzuki%20Baleno&carPrice=3000&seats=5&transmission=Automatic&fuel=Petrol&mileage=22%20km/l&images=carss/baleno/Screenshot%202025-04-07%20003705.png,carss/baleno/Screenshot%202025-04-07%20003720.png,carss/baleno/Screenshot%202025-04-07%20003738.png,carss/baleno/Screenshot%202025-04-07%20003753.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Toyota Innova Crysta -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/crysta/Screenshot 2025-04-07 004049.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/crysta/Screenshot 2025-04-07 004107.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/crysta/Screenshot 2025-04-07 004008.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/crysta/Screenshot 2025-04-07 004034.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Toyota Innova Crysta</h3>
+          <p class="car-category">Premium MUV</p>
+          <p class="car-price">₹6,000 / day</p>
+          <a href="car-details.html?carName=Toyota%20Innova%20Crysta&carPrice=6000&seats=7&transmission=Automatic&fuel=Diesel&mileage=13%20km/l&images=carss/crysta/Screenshot%202025-04-07%20004049.png,carss/crysta/Screenshot%202025-04-07%20004107.png,carss/crysta/Screenshot%202025-04-07%20004008.png,carss/crysta/Screenshot%202025-04-07%20004034.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Skoda Kushaq -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/kushaq/Screenshot 2025-04-07 004222.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/kushaq/Screenshot 2025-04-07 004237.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/kushaq/Screenshot 2025-04-07 004144.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/kushaq/Screenshot 2025-04-07 004205.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Skoda Kushaq</h3>
+          <p class="car-category">Premium SUV</p>
+          <p class="car-price">₹4,500 / day</p>
+          <a href="car-details.html?carName=Skoda%20Kushaq&carPrice=4500&seats=5&transmission=Automatic&fuel=Petrol&mileage=16%20km/l&images=carss/kushaq/Screenshot%202025-04-07%20004222.png,carss/kushaq/Screenshot%202025-04-07%20004237.png,carss/kushaq/Screenshot%202025-04-07%20004144.png,carss/kushaq/Screenshot%202025-04-07%20004205.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Renault Kiger -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/kiger/Screenshot 2025-04-07 004313.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/kiger/Screenshot 2025-04-07 004325.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/kiger/Screenshot 2025-04-07 004340.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/kiger/Screenshot 2025-04-07 004449.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Renault Kiger</h3>
+          <p class="car-category">Compact SUV</p>
+          <p class="car-price">₹3,500 / day</p>
+          <a href="car-details.html?carName=Renault%20Kiger&carPrice=3500&seats=5&transmission=Automatic&fuel=Petrol&mileage=18%20km/l&images=carss/kiger/Screenshot%202025-04-07%20004313.png,carss/kiger/Screenshot%202025-04-07%20004325.png,carss/kiger/Screenshot%202025-04-07%20004340.png,carss/kiger/Screenshot%202025-04-07%20004449.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Nissan Magnite -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/magnite/Screenshot 2025-04-07 004805.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/magnite/Screenshot 2025-04-07 004819.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/magnite/Screenshot 2025-04-07 004736.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/magnite/Screenshot 2025-04-07 004752.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Nissan Magnite</h3>
+          <p class="car-category">Compact SUV</p>
+          <p class="car-price">₹3,200 / day</p>
+          <a href="car-details.html?carName=Nissan%20Magnite&carPrice=3200&seats=5&transmission=Automatic&fuel=Petrol&mileage=20%20km/l&images=carss/magnite/Screenshot%202025-04-07%20004805.png,carss/magnite/Screenshot%202025-04-07%20004819.png,carss/magnite/Screenshot%202025-04-07%20004736.png,carss/magnite/Screenshot%202025-04-07%20004752.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Tata Harrier -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/harrier/Screenshot 2025-04-07 004916.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/harrier/Screenshot 2025-04-07 004929.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/harrier/Screenshot 2025-04-07 004956.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/harrier/Screenshot 2025-04-07 005012.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Tata Harrier</h3>
+          <p class="car-category">Premium SUV</p>
+          <p class="car-price">₹5,500 / day</p>
+          <a href="car-details.html?carName=Tata%20Harrier&carPrice=5500&seats=5&transmission=Automatic&fuel=Diesel&mileage=14%20km/l&images=carss/harrier/Screenshot%202025-04-07%20004916.png,carss/harrier/Screenshot%202025-04-07%20004929.png,carss/harrier/Screenshot%202025-04-07%20004956.png,carss/harrier/Screenshot%202025-04-07%20005012.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      <!-- Mahindra XUV700 -->
+      <div class="car-card">
+        <div class="car-image">
+          <div class="car-slideshow">
+            <div class="car-slide active" style="background-image: url('carss/xuv700/Screenshot 2025-04-07 005354.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/xuv700/Screenshot 2025-04-07 005426.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/xuv700/Screenshot 2025-04-07 005319.png')"></div>
+            <div class="car-slide" style="background-image: url('carss/xuv700/Screenshot 2025-04-07 005341.png')"></div>
+          </div>
+          <div class="car-slideshow-nav">
+            <div class="car-slideshow-dot active" data-slide="0"></div>
+            <div class="car-slideshow-dot" data-slide="1"></div>
+            <div class="car-slideshow-dot" data-slide="2"></div>
+            <div class="car-slideshow-dot" data-slide="3"></div>
+          </div>
+        </div>
+        <div class="car-details">
+          <h3 class="car-name">Mahindra XUV700</h3>
+          <p class="car-category">Premium SUV</p>
+          <p class="car-price">₹5,800 / day</p>
+          <a href="car-details.html?carName=Mahindra%20XUV700&carPrice=5800&seats=7&transmission=Automatic&fuel=Diesel&mileage=15%20km/l&images=carss/xuv700/Screenshot%202025-04-07%20005354.png,carss/xuv700/Screenshot%202025-04-07%20005426.png,carss/xuv700/Screenshot%202025-04-07%20005319.png,carss/xuv700/Screenshot%202025-04-07%20005341.png" 
+             class="view-details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>About DrivEasy</h3>
+          <p>DrivEasy is a premium car rental service offering a wide range of vehicles for all your travel needs. We are committed to providing exceptional service and quality cars at competitive prices.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+            <li><a href="cars.html"><i class="fas fa-chevron-right"></i> Cars</a></li>
+            <li><a href="#how-it-works"><i class="fas fa-chevron-right"></i> How It Works</a></li>
+            <li><a href="#why-us"><i class="fas fa-chevron-right"></i> Why Us</a></li>
+            <li><a href="#testimonials"><i class="fas fa-chevron-right"></i> Testimonials</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Our Services</h3>
+          <ul class="footer-links">
+            <li><a href="#"><i class="fas fa-chevron-right"></i> Short-term Rentals</a></li>
+            <li><a href="#"><i class="fas fa-chevron-right"></i> Long-term Rentals</a></li>
+            <li><a href="#"><i class="fas fa-chevron-right"></i> Airport Pickup</a></li>
+            <li><a href="#"><i class="fas fa-chevron-right"></i> Chauffeur Services</a></li>
+            <li><a href="#"><i class="fas fa-chevron-right"></i> Corporate Rentals</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <ul class="footer-links">
+            <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 MG Road, Bangalore, Karnataka, India</a></li>
+            <li><a href="tel:+919876543210"><i class="fas fa-phone-alt"></i> +91 98765 43210</a></li>
+            <li><a href="mailto:info@driveasy.in"><i class="fas fa-envelope"></i> info@driveasy.in</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2024 DrivEasy India. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Car slideshow functionality
+    document.querySelectorAll('.car-slideshow').forEach(slideshow => {
+      const slides = slideshow.querySelectorAll('.car-slide');
+      const dots = slideshow.nextElementSibling.querySelectorAll('.car-slideshow-dot');
+      let currentSlide = 0;
+
+      function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+        currentSlide = index;
+      }
+
+      // Auto slideshow
+      setInterval(() => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+      }, 3000);
+
+      // Click on dots to change slides
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          showSlide(index);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

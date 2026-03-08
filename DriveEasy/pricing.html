@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing & Approval - DrivEasy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #007bff;
+            --primary-dark: #0056b3;
+            --secondary: #6c757d;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --white: #ffffff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--secondary);
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .price-suggestion {
+            background: var(--light);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+        }
+
+        .price-suggestion h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .price-range {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .price-range span {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .status-box {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-box i {
+            font-size: 20px;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: var(--secondary);
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Pricing & Approval</h1>
+            <p class="page-subtitle">Set a competitive rental price and check your approval status</p>
+        </div>
+        
+        <form id="pricing-form">
+            <div class="form-group">
+                <label for="rental-price">Set Your Daily Rental Price (₹):</label>
+                <div class="input-group">
+                    <i class="fas fa-rupee-sign"></i>
+                    <input type="number" id="rental-price" placeholder="Enter amount" required>
+                </div>
+                <p class="info-text">Enter the daily rental price you want to charge</p>
+            </div>
+            
+            <div class="price-suggestion">
+                <h3><i class="fas fa-chart-line"></i> Suggested Price Range</h3>
+                <div class="price-range">
+                    <span>Minimum: ₹2,500</span>
+                    <span>Maximum: ₹4,500</span>
+                </div>
+                <p>Based on similar cars in your area and current market trends</p>
+            </div>
+            
+            <div class="form-group">
+                <label>Your Approval Status:</label>
+                <div id="approval-status" class="status-box pending">
+                    <i class="fas fa-clock"></i>
+                    <span>Pending Approval</span>
+                </div>
+                <p class="info-text">Your listing will be reviewed within 24 hours</p>
+            </div>
+            
+            <button type="submit" class="btn">
+                <i class="fas fa-check-circle"></i> Submit & Continue
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('pricing-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            window.location.href = 'booking.html';
+        });
+    </script>
+</body>
+</html>

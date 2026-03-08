@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalize Booking - DrivEasy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #007bff;
+            --primary-dark: #0056b3;
+            --secondary: #6c757d;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --white: #ffffff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--secondary);
+            font-size: 16px;
+        }
+
+        .details-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--light);
+            border-radius: var(--border-radius);
+        }
+
+        .details-section h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .details-section h3 i {
+            color: var(--primary);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .detail-item {
+            margin-bottom: 10px;
+        }
+
+        .detail-item strong {
+            color: var(--dark);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .detail-item span {
+            color: var(--secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Finalize Your Booking</h1>
+            <p class="page-subtitle">Review the details below and confirm your booking</p>
+        </div>
+        
+        <div class="details-section">
+            <h3><i class="fas fa-car"></i> Car Details</h3>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <strong>Model</strong>
+                    <span>Toyota Innova Crysta</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Rental Price</strong>
+                    <span>₹6,000 per day</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Duration</strong>
+                    <span>1 Month</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Total Amount</strong>
+                    <span>₹1,80,000</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="details-section">
+            <h3><i class="fas fa-user"></i> User Details</h3>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <strong>Name</strong>
+                    <span>Rahul Sharma</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Email</strong>
+                    <span>rahul.sharma@example.com</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Phone</strong>
+                    <span>+91 98765 43210</span>
+                </div>
+                <div class="detail-item">
+                    <strong>License Number</strong>
+                    <span>DL-1234567890123</span>
+                </div>
+            </div>
+        </div>
+        
+        <a href="payment-confirmation.html" class="btn">
+            <i class="fas fa-arrow-right"></i> Proceed to Payment
+        </a>
+    </div>
+</body>
+</html>

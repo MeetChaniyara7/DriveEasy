@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrivEasy - Premium Car Rentals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #007bff;
+            --primary-dark: #0056b3;
+            --secondary: #6c757d;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --white: #ffffff;
+            --border-radius: 4px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--white);
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--dark);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-outline:hover {
+            background-color: transparent;
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.15);
+            border-color: var(--primary-dark);
+        }
+        
+        .btn-outline:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+        }
+        .btn-rent {
+            background-color: transparent;
+            border: 2px solid var(--success);
+            color: var(--success);
+            transition: all 0.3s ease;
+        }
+
+        .btn-rent:hover {
+            background-color: var(--success);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+        }
+        
+        /* Enhanced sign-in button */
+        .btn-sign-in {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+            transition: var(--transition);
+        }
+        
+        .btn-sign-in:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.4);
+        }
+
+        
+        .btn-sign-in:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+        }
+        
+        /* Slideshow styles */
+        .hero {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+        
+        .slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-top: 150px;
+            text-align: center;
+            color: var(--white);
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .slideshow-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .slideshow-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 0 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .slideshow-dot.active {
+            background-color: var(--white);
+            transform: scale(1.2);
+        }
+        
+        .search-bar {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-top: -50px;
+            position: relative;
+            z-index: 20;
+        }
+        
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+        
+        .search-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            align-self: flex-end;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 32px;
+            color: var(--dark);
+        }
+        
+        .section-title p {
+            color: var(--secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Filter controls */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background-color: var(--light);
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .car-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .car-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .car-details {
+            padding: 20px;
+        }
+        
+        .car-title {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .car-subtitle {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .car-features {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .feature i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+        
+        .car-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .car-price span {
+            font-size: 14px;
+            color: var(--secondary);
+            font-weight: normal;
+        }
+        
+        .why-us {
+            background-color: var(--light);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .testimonials {
+            background-color: var(--white);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .author-details h4 {
+            margin-bottom: 5px;
+        }
+        
+        .author-details p {
+            color: var(--secondary);
+            font-size: 14px;
+        }
+        
+        .how-it-works {
+            background-color: var(--light);
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+        
+        .step-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: -30px;
+            width: 60px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        /* Enhanced Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links a i {
+            margin-right: 8px;
+            font-size: 14px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+            padding-left: 5px;
+        }
+        
+        .footer-about p {
+            color: #bbb;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-link {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+        }
+        
+        .newsletter-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0 15px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .newsletter-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            font-size: 14px;
+            color: #bbb;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+        }
+        
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-bottom-links a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .footer-bottom-links a:hover {
+            color: var(--white);
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .payment-method {
+            width: 40px;
+            height: 25px;
+            background-color: var(--white);
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Sign In Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+        
+        .close-btn:hover {
+            color: var(--dark);
+        }
+        
+        .sign-in-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .sign-in-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .sign-in-form .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .sign-in-form .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+        
+        .sign-in-form .btn-primary {
+            width: 100%;
+            padding: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .sign-in-form .forgot-password {
+            text-align: center;
+            display: block;
+            margin-top: 15px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .sign-in-form .separator {
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .sign-in-form .separator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #ddd;
+            z-index: 1;
+        }
+        
+        .sign-in-form .separator span {
+            background-color: var(--white);
+            padding: 0 10px;
+            position: relative;
+            z-index: 2;
+            color: var(--secondary);
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .social-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin: 0 5px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--white);
+            transition: var(--transition);
+        }
+        
+        .facebook {
+            background-color: #3b5998;
+        }
+        
+        .google {
+            background-color: #dd4b39;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .register-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        /* Chat Widget */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        .chat-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0046b8 0%, #003ca0 100%);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            border: 3px solid #ff6600;
+        }
+        
+        .chat-logo:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .chat-logo-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .chat-logo-flames {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            left: 5%;
+            transform: translateY(2px);
+            transition: all 0.3s ease;
+        }
+        
+        .chat-logo:hover .chat-logo-flames {
+            transform: translateY(0) scale(1.05);
+        }
+        
+        .chat-logo-car {
+            width: 45px;
+            height: 45px;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-logo:hover .chat-logo-car {
+            transform: scale(1.1);
+        }
+        
+        .chat-bubble {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            background-color: white;
+            border-radius: 12px;
+            padding: 12px 18px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
+            max-width: 250px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #333;
+            border: 2px solid #ff6600;
+        }
+        
+        .chat-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .chat-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            right: 25px;
+            border-width: 12px 12px 0;
+            border-style: solid;
+            border-color: #ff6600 transparent transparent;
+        }
+        
+        .chat-bubble:before {
+            content: '';
+            position: absolute;
+            bottom: -9px;
+            right: 25px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent transparent;
+            z-index: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .step:not(:last-child)::after {
+                display: none;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .footer-bottom-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-menu-btn {
+            background: none;
+            border: none;
+            color: var(--dark);
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .user-menu-btn:hover {
+            color: var(--primary);
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .user-menu:hover .user-dropdown {
+            display: block;
+        }
+
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .user-dropdown a:hover {
+            background-color: #f5f5f5;
+            color: var(--primary);
+        }
+
+        .welcome-banner {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .welcome-banner.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+ <body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">Drive<span>Easy</span></a>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="cars.html">Cars</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#why-us">Why Us</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="rentyourcar.html" class="btn btn-outline">Rent Your Car</a></li>
+                    <li id="user-section" style="display: none;">
+                        <div class="user-menu">
+                            <button class="user-menu-btn">
+                                <i class="fas fa-user-circle"></i>
+                                <span id="user-name">User</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="user-dropdown">
+                                <a href="invoice2.html"><i class="fas fa-bookmark"></i> My Bookings</a>
+                                <a href="my-listings.html"><i class="fas fa-car"></i> My Listed Cars</a>
+                                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                                <a href="#" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="sign-in-btn-container"><a href="#" class="btn btn-sign-in" id="sign-in-btn">Sign In</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <!-- Slideshow -->
+        <div class="slideshow">
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80')">
+                <div class="slide-overlay"></div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80')">
+                <div class="slide-overlay"></div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80')">
+                <div class="slide-overlay"></div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <h1>Rent Your Dream Car Today</h1>
+                <p>Choose from our wide range of premium vehicles and enjoy the ride at affordable prices.</p>
+                <a href="cars.html" class="btn btn-primary">Explore Cars</a>
+            </div>
+        </div>
+        
+        <!-- Slideshow navigation dots -->
+        <div class="slideshow-nav">
+            <div class="slideshow-dot active" data-slide="0"></div>
+            <div class="slideshow-dot" data-slide="1"></div>
+            <div class="slideshow-dot" data-slide="2"></div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="search-bar">
+            <form class="search-form" id="car-search-form">
+                <div class="form-group">
+                    <label for="pickup-location">Pickup Location</label>
+                    <input type="text" id="pickup-location" placeholder="Enter city or airport">
+                </div>
+                <div class="form-group">
+                    <label for="pickup-date">Pickup Date</label>
+                    <input type="date" id="pickup-date">
+                </div>
+                <div class="form-group">
+                    <label for="return-date">Return Date</label>
+                    <input type="date" id="return-date">
+                </div>
+                <div class="form-group">
+                    <label for="car-type">Car Type</label>
+                    <select id="car-type">
+                        <option value="">All Types</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="suv">SUV</option>
+                        <option value="luxury">Luxury</option>
+                        <option value="sports">Sports Car</option>
+                        <option value="off-road">Off-Road</option>
+                    </select>
+                </div>
+                <button type="submit" class="search-btn">Search Cars</button>
+            </form>
+        </div>
+    </div>
+
+    <section id="cars" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Featured Cars</h2>
+                <p>Choose from our top-rated vehicles for your next adventure</p>
+            </div>
+            
+            <!-- Filter buttons -->
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all">All Cars</button>
+                <button class="filter-btn" data-filter="sedan">Sedan</button>
+                <button class="filter-btn" data-filter="suv">SUV</button>
+                <button class="filter-btn" data-filter="luxury">Luxury</button>
+                <button class="filter-btn" data-filter="sports">Sports</button>
+                <button class="filter-btn" data-filter="off-road">Off-Road</button>
+            </div>
+            
+            <div class="cars-grid" id="cars-grid">
+                <!-- Car Card 1 -->
+                <div class="car-card" data-category="sedan" onclick="redirectToDetails('Honda City', 3500, 'Compact Sedan', 4, 2, 'Manual', 'hondacity.png')">
+                    <div class="car-image" style="background-image: url('hondacity.png')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">Honda City</h3>
+                        <p class="car-subtitle">Compact Sedan</p>
+                        <div class="car-features">
+                            <span class="feature"><i class="fas fa-user"></i> 4 Seats</span>
+                            <span class="feature"><i class="fas fa-suitcase"></i> 2 Bags</span>
+                            <span class="feature"><i class="fas fa-cog"></i> Manual</span>
+                        </div>
+                        <div class="car-price">₹3,500 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car Card 2 -->
+                <div class="car-card" data-category="suv" onclick="redirectToDetails('Hyundai Creta', 4500, 'Compact SUV', 5, 3, 'Auto', 'cretamain.png')">
+                    <div class="car-image" style="background-image: url('cretamain.png')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">Hyundai Creta</h3>
+                        <p class="car-subtitle">Compact SUV</p>
+                        <div class="car-features">
+                            <span class="feature"><i class="fas fa-user"></i> 5 Seats</span>
+                            <span class="feature"><i class="fas fa-suitcase"></i> 3 Bags</span>
+                            <span class="feature"><i class="fas fa-cog"></i> Auto</span>
+                        </div>
+                        <div class="car-price">₹4,500 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car Card 3 -->
+                <div class="car-card" data-category="sedan" onclick="redirectToDetails('Volkswagen Virtus', 4000, 'Premium Sedan', 5, 2, 'Auto', 'virtusmain.png')">
+                    <div class="car-image" style="background-image: url('virtusmain.png')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">Volkswagen Virtus</h3>
+                        <p class="car-subtitle">Premium Sedan</p>
+                        <div class="car-features">
+                            <span class="feature"><i class="fas fa-user"></i> 5 Seats</span>
+                            <span class="feature"><i class="fas fa-suitcase"></i> 2 Bags</span>
+                            <span class="feature"><i class="fas fa-cog"></i> Auto</span>
+                        </div>
+                        <div class="car-price">₹4,000 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car Card 4 -->
+                <div class="car-card" data-category="luxury" onclick="redirectToDetails('Mercedes-Benz GLA', 8500, 'Luxury SUV', 5, 3, 'Auto', 'mercedes benz GLA/Screenshot 2025-04-06 200814.png')">
+                    <div class="car-image" style="background-image: url('mercedes benz GLA/Screenshot 2025-04-06 200814.png')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">Mercedes-Benz GLA</h3>
+                        <p class="car-subtitle">Luxury SUV</p>
+                        <div class="car-features">
+                            <span class="feature"><i class="fas fa-user"></i> 5 Seats</span>
+                            <span class="feature"><i class="fas fa-suitcase"></i> 3 Bags</span>
+                            <span class="feature"><i class="fas fa-cog"></i> Auto</span>
+                        </div>
+                        <div class="car-price">₹8,500 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car Card 5 -->
+                <div class="car-card" data-category="sports" onclick="redirectToDetails('Ford Mustang', 12000, 'Sports Car', 4, 2, 'Auto', 'mustang/Screenshot 2025-04-06 204005.png')">
+                    <div class="car-image" style="background-image: url('mustang/Screenshot 2025-04-06 204005.png')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">Ford Mustang</h3>
+                        <p class="car-subtitle">Sports Car</p>
+                        <div class="car-features">
+                            <span class="feature"><i class="fas fa-user"></i> 4 Seats</span>
+                            <span class="feature"><i class="fas fa-suitcase"></i> 2 Bags</span>
+                            <span class="feature"><i class="fas fa-cog"></i> Auto</span>
+                        </div>
+                        <div class="car-price">₹12,000 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car Card 6 -->
+                <div class="car-card" data-category="suv" onclick="redirectToDetails('MG Hector', 5000, 'Premium SUV', 5, 3, 'Auto', 'hector/Screenshot 2025-04-06 200059.png')">
+                    <div class="car-image" style="background-image: url('hector/Screenshot 2025-04-06 200059.png')"></div>
+                    <div class="car-details">
+                        <h3 class="car-title">MG Hector</h3>
+                        <p class="car-subtitle">Premium SUV</p>
+                        <div class="car-features">
+                            <span class="feature"><i class="fas fa-user"></i> 5 Seats</span>
+                            <span class="feature"><i class="fas fa-suitcase"></i> 3 Bags</span>
+                            <span class="feature"><i class="fas fa-cog"></i> Auto</span>
+                        </div>
+                        <div class="car-price">₹5,000 <span>per day</span></div>
+                        <a href="javascript:void(0)" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us Section -->
+    <section id="why-us" class="section why-us">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose DrivEasy</h2>
+                <p>We offer the best car rental experience with premium services</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3 class="feature-title">Wide Selection</h3>
+                    <p>Choose from our extensive fleet of vehicles to find the perfect car for your needs.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3 class="feature-title">Best Prices</h3>
+                    <p>We offer competitive rates and special discounts for long-term rentals.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="feature-title">24/7 Support</h3>
+                    <p>Our customer service team is available around the clock to assist you.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Full Insurance</h3>
+                    <p>All our vehicles come with comprehensive insurance coverage for your peace of mind.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Renting a car with DrivEasy is quick and easy</p>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Choose Your Car</h3>
+                    <p>Browse our selection and find the perfect vehicle for your needs.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Book & Pay</h3>
+                    <p>Reserve your car and make a secure payment online.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Pick Up</h3>
+                    <p>Collect your car from our convenient location.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Enjoy Your Ride</h3>
+                    <p>Hit the road and enjoy your journey with our premium vehicles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Customers Say</h2>
+                <p>Read testimonials from our satisfied customers</p>
+            </div>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "DrivEasy provided me with an excellent car and outstanding service. The booking process was smooth, and the car was in perfect condition. I'll definitely use their services again!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg')"></div>
+                        <div class="author-details">
+                            <h4>John Smith</h4>
+                            <p>Business Traveler</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "I rented a car for my family vacation, and it was a great experience. The car was spacious, clean, and fuel-efficient. The staff was friendly and helpful. Highly recommended!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg')"></div>
+                        <div class="author-details">
+                            <h4>Sarah Johnson</h4>
+                            <p>Family Traveler</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "As a frequent traveler, I've used many car rental services, but DrivEasy stands out with their premium fleet and exceptional customer service. The prices are reasonable, and the cars are always in top condition."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image" style="background-image: url('https://randomuser.me/api/portraits/men/67.jpg')"></div>
+                        <div class="author-details">
+                            <h4>Michael Brown</h4>
+                            <p>Frequent Traveler</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column footer-about">
+                    <h3>About DrivEasy</h3>
+                    <p>DrivEasy is a premium car rental service offering a wide range of vehicles for all your travel needs. We are committed to providing exceptional service and quality cars at competitive prices.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="cars.html"><i class="fas fa-chevron-right"></i> Cars</a></li>
+                        <li><a href="#how-it-works"><i class="fas fa-chevron-right"></i> How It Works</a></li>
+                        <li><a href="#why-us"><i class="fas fa-chevron-right"></i> Why Us</a></li>
+                        <li><a href="#testimonials"><i class="fas fa-chevron-right"></i> Testimonials</a></li>
+                        <li><a href="rentyourcar.html"><i class="fas fa-chevron-right"></i> Rent Your Car</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Our Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Short-term Rentals</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Long-term Rentals</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Airport Pickup</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Chauffeur Services</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Corporate Rentals</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 MG Road, Bangalore, Karnataka, India</a></li>
+                        <li><a href="tel:+919876543210"><i class="fas fa-phone-alt"></i> +91 98765 43210</a></li>
+                        <li><a href="mailto:info@driveasy.in"><i class="fas fa-envelope"></i> info@driveasy.in</a></li>
+                    </ul>
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get special offers and updates</p>
+                    <form class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Your Email">
+                        <button type="submit" class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2024 DrivEasy India. All Rights Reserved.
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">FAQ</a>
+                </div>
+                <div class="payment-methods">
+                    <div class="payment-method"><i class="fab fa-cc-visa"></i></div>
+                    <div class="payment-method"><i class="fab fa-cc-mastercard"></i></div>
+                    <div class="payment-method"><i class="fab fa-cc-rupay"></i></div>
+                    <div class="payment-method"><i class="fab fa-google-pay"></i></div>
+                    <div class="payment-method"><i class="fas fa-qrcode"></i></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sign In Modal -->
+    <div id="sign-in-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form class="sign-in-form">
+                <h2>Sign In to DrivEasy</h2>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign In</button>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+                
+                <div class="separator">
+                    <span>Or Sign In With</span>
+                </div>
+                
+                <div class="social-login">
+                    <div class="social-btn facebook">Facebook</div>
+                    <div class="social-btn google">Google</div>
+                </div>
+                
+                <div class="register-link">
+                    Don't have an account? <a href="#">Register Now</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-bubble" id="chatBubble">Need help finding your perfect ride?</div>
+        <div class="chat-logo" id="chatLogo">
+            <div class="chat-logo-inner">
+                <svg class="chat-logo-flames" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <!-- Hot Wheels style flames -->
+                    <path d="M50,15 C55,25 65,30 75,30 C65,40 70,55 80,60 C70,65 60,75 65,90 C50,80 35,85 20,95 C25,75 15,65 5,60 C20,55 25,40 15,25 C30,30 40,20 50,15" fill="#ff6600" />
+                    <path d="M50,20 C54,28 62,32 70,32 C62,40 66,52 74,56 C66,60 58,68 62,80 C50,72 38,76 26,84 C30,68 22,60 14,56 C26,52 30,40 22,28 C34,32 42,24 50,20" fill="#ffcc00" />
+                </svg>
+                <svg class="chat-logo-car" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <!-- Hot Wheels style vintage muscle car -->
+                    <path d="M5,60 L15,40 C20,35 80,35 85,40 L95,60 L90,65 L80,65 L75,70 L25,70 L20,65 L10,65 Z" fill="#003ca0" />
+                    <path d="M20,40 L25,50 L75,50 L80,40 Z" fill="#ffffff" />
+                    <path d="M25,52 L28,60 L72,60 L75,52 Z" fill="#003ca0" />
+                    <rect x="30" y="42" width="40" height="6" fill="#00257a" />
+                    <circle cx="25" cy="65" r="5" fill="#333333" stroke="#777777" stroke-width="1" />
+                    <circle cx="75" cy="65" r="5" fill="#333333" stroke="#777777" stroke-width="1" />
+                    <!-- Racing stripe -->
+                    <path d="M48,40 L48,70 M52,40 L52,70" stroke="#ff6600" stroke-width="2" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add welcome banner -->
+    <div id="welcome-banner" class="welcome-banner">
+        <div class="container">
+            Welcome back! Ready for your next adventure?
+        </div>
+    </div>
+
+    <script>
+        // Slideshow functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slideshow-dot');
+        
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Show the selected slide
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+        
+        // Auto slideshow
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }, 5000);
+        
+        // Click on dots to change slides
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+        
+        // Car filtering functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const carCards = document.querySelectorAll('.car-card');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Get filter value
+                const filterValue = button.getAttribute('data-filter');
+                
+                // Filter cars
+                carCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Search form functionality
+        document.getElementById('car-search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const location = document.getElementById('pickup-location').value;
+            const pickupDate = document.getElementById('pickup-date').value;
+            const returnDate = document.getElementById('return-date').value;
+            const carType = document.getElementById('car-type').value;
+            
+            // Filter cars based on search criteria
+            carCards.forEach(card => {
+                let shouldShow = true;
+                
+                // Filter by car type if selected
+                if (carType && card.getAttribute('data-category') !== carType && carType !== '') {
+                    shouldShow = false;
+                }
+                
+                // Show or hide card
+                card.style.display = shouldShow ? 'block' : 'none';
+            });
+            
+            // Scroll to cars section
+            document.getElementById('cars').scrollIntoView({ behavior: 'smooth' });
+            
+            // Show filter feedback
+            alert(`Searching for cars in ${location || 'all locations'} from ${pickupDate || 'today'} to ${returnDate || 'no end date'}`);
+        });
+        
+        // Redirect to car details page with query parameters
+        function redirectToDetails(carName, carPrice, carSubtitle, seats, bags, transmission, image) {
+            // Create query parameters string
+            const params = new URLSearchParams({
+                carName: carName,
+                carPrice: carPrice,
+                carSubtitle: carSubtitle,
+                seats: seats,
+                bags: bags,
+                transmission: transmission,
+                image: image
+            });
+            // Redirect to car-details.html with query parameters
+            window.location.href = 'car-details.html?' + params.toString();
+        }
+
+        // Get the modal
+        const modal = document.getElementById("sign-in-modal");
+        
+        // Get the button that opens the modal
+        const btn = document.getElementById("sign-in-btn");
+        
+        // Get the <span> element that closes the modal
+        const span = document.getElementsByClassName("close-btn")[0];
+        
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+            return false; // Prevent default anchor behavior
+        }
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+        // Handle form submission
+        document.querySelector('.sign-in-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Here you would typically validate with your backend
+            // For demo, we'll just simulate a successful login
+            handleSuccessfulLogin({
+                name: email.split('@')[0],
+                email: email
+            });
+        });
+        
+        // Chat widget functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatLogo = document.getElementById('chatLogo');
+            const chatBubble = document.getElementById('chatBubble');
+            let bubbleTimeout;
+            
+            // Show bubble on page load
+            setTimeout(function() {
+                chatBubble.classList.add('show');
+                
+                // Hide bubble after 5 seconds
+                bubbleTimeout = setTimeout(function() {
+                    chatBubble.classList.remove('show');
+                }, 5000);
+            }, 2000);
+            
+            // Toggle chat window on logo click
+            chatLogo.addEventListener('click', function() {
+                // Clear any pending timeouts
+                clearTimeout(bubbleTimeout);
+                
+                // This is where you'd open your chat interface
+                // For now, let's just redirect to a hypothetical chat page
+                window.location.href = '/chat.html';
+                
+                // Alternative: You could replace this with code to open your actual chat widget
+                // For example:
+                // document.getElementById('yourChatInterface').style.display = 'block';
+            });
+            
+            // Show bubble on hover
+            chatLogo.addEventListener('mouseenter', function() {
+                clearTimeout(bubbleTimeout);
+                chatBubble.classList.add('show');
+            });
+            
+            // Hide bubble on mouse leave
+            chatLogo.addEventListener('mouseleave', function() {
+                bubbleTimeout = setTimeout(function() {
+                    chatBubble.classList.remove('show');
+                }, 2000);
+            });
+        });
+
+        // User state management
+        let isUserSignedIn = false;
+        let currentUser = null;
+
+        function handleSuccessfulLogin(user) {
+            isUserSignedIn = true;
+            currentUser = user;
+            
+            // Update UI
+            document.getElementById('sign-in-btn-container').style.display = 'none';
+            document.getElementById('user-section').style.display = 'block';
+            document.getElementById('user-name').textContent = user.name;
+            
+            // Show welcome banner
+            const welcomeBanner = document.getElementById('welcome-banner');
+            welcomeBanner.classList.add('show');
+            
+            // Hide banner after 5 seconds
+            setTimeout(() => {
+                welcomeBanner.classList.remove('show');
+            }, 5000);
+
+            // Close modal
+            modal.style.display = "none";
+
+            // Store user session (you might want to use proper session management)
+            localStorage.setItem('user', JSON.stringify(user));
+        }
+
+        function signOut() {
+            isUserSignedIn = false;
+            currentUser = null;
+            
+            // Update UI
+            document.getElementById('sign-in-btn-container').style.display = 'block';
+            document.getElementById('user-section').style.display = 'none';
+            
+            // Clear session
+            localStorage.removeItem('user');
+        }
+
+        // Check for existing session on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedUser = localStorage.getItem('user');
+            if (savedUser) {
+                handleSuccessfulLogin(JSON.parse(savedUser));
+            }
+        });
+    </script>
+</body>
+</html>
